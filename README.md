@@ -1,14 +1,14 @@
 #### Docker compose nginx + certbot config
 
 ##### This config used to hanlde https connections with proxy passing to some API on some port running in docker container
-#
+
 ##### To use it:
 - clone this repo to some folder on server
 - create docker network ``nginx-all`` :
 ```
 docker network create nginx-all
 ```
-- edit ```nginx/some-site.conf``` with right domain
+- edit ```nginx/example-site.conf``` with right domain
 - run proxy and then dry-run the certbot:
 ```
 docker compose up proxy
@@ -29,7 +29,7 @@ docker compose restart proxy
 - check if everything is working
 
 ##### to renew certificates use:
-#
+
 ```
 docker compose run --rm certbot renew
 ```
