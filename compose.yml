@@ -1,0 +1,31 @@
+services:
+  proxy:
+    container_name: nginx-all
+    image: nginx:1.25-alpine
+    networks:
+      - nginx
+    volumes:
+      - type: bind
+        source: nginx
+        target: /etc/nginx/conf.d
+        read_only: true
+      - type: bind
+        source: ./certbot/www
+        target: /var/www/certbot
+        read_only: true
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+
+networks:
+  nginx:
+    name: nginx-all # need bo be created before run, and server attached to it;
+    external: true
